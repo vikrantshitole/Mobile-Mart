@@ -6,9 +6,30 @@ import {
 } from "react-native-safe-area-context";
 import AuthForm from "../components/AuthForm/AuthForm";
 import { View } from "react-native";
+import { useDispatch } from "react-redux";
+import { signin } from "../redux/actions/authAction";
+import api from "../api/axios";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Signin = () => {
   const inset2 = useSafeAreaInsets();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const login = async(username,password) => {
+    try {
+      
+      const response = await api.post('/signin',{username,password});
+      AsyncStorage.setItem('token', response.data.token)
+      dispatch(signin(username,password,response.data.token))      
+      navigation.navigate('main')
+    } catch (error) {
+      console.log(JSON.stringify(error));
+      
+    }
+
+  }
   return (
     <View
       style={{
@@ -26,6 +47,7 @@ const Signin = () => {
         route="signup"
         buttonText="Sign In"
         alreadyHaveAccountText="Don't have an account? Please Sign Up!"
+        onClick={login}
       />
     </View>
   );

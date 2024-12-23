@@ -16,6 +16,9 @@ import {
   ThemeProvider,
   useTheme,
 } from "@rneui/themed";
+import { createStore } from "redux";
+import reducer from "./src/redux";
+import { Provider } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 const AddressRoutes = () => (
@@ -96,7 +99,6 @@ const WEB_FONT_STACK =
 
 const Navigation = () => {
   const { theme } = useTheme();
-  console.log(theme);
 
   if (!theme) {
     return null;
@@ -144,11 +146,14 @@ const Navigation = () => {
     </NavigationContainer>
   );
 };
+const store = createStore(reducer)
 const App = () => {
   return (
-    <ThemeProvider theme={themeSettings}>
-      <Navigation />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={themeSettings}>
+        <Navigation />
+      </ThemeProvider>
+    </Provider>
   );
 };
 

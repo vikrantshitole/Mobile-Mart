@@ -1,8 +1,9 @@
+import { Text } from '@rneui/themed'
 import React from 'react'
 
 const MartListPage = () => {
   return (
-    <div>MartListPage</div>
+    <Text>MartListPage</Text>
   )
 }
 

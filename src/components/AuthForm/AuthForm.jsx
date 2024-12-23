@@ -7,28 +7,36 @@ import {
   ThemeConsumer,
   useTheme,
 } from "@rneui/themed";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Spacer from "../Spacer/Spacer";
 import { TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import useAuthData, { CHANGE_INPUT } from "../../hooks/useAuthData";
 
 const AuthForm = ({
   title = "",
   buttonText,
   route = "",
   alreadyHaveAccountText,
-  emailOrMobileLogin = "Login with Mobile Number",
+  onClick
 }) => {
   const { theme } = useTheme();
   const style = useStyles(theme);
   const navigation = useNavigation();
-  const [emailOrNumber, setEmailOrPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoginWithNumber, setIsLoginWithNumber] = useState(false);
-  const [email, setEmail] = useState("");
+  const [state, dispatch] = useAuthData();
+
   const navigateTo = () => {
     navigation.navigate(route);
   };
+
+  const changeInput = (e) => {
+    dispatch({ type: CHANGE_INPUT, payload: { name: e.target.name, value: e.target.value } })
+  }
+
+  useEffect(() => {
+    dispatch({ type: CHANGE_INPUT, payload: { name: 'isSignUp', value: buttonText === 'Sign Up' } })
+  }, [buttonText])
+
   return (
     <>
       <Spacer>
@@ -52,18 +60,48 @@ const AuthForm = ({
       </Spacer>
       <Spacer>
         <Input
-          placeholder={isLoginWithNumber ? "8855824455" : "email@address.com"}
+          placeholder={state.isLoginWithNumber ? "8855824455" : "email@address.com"}
           leftIcon={{
-            type: isLoginWithNumber ? "font-awesome" : "fontisto",
-            name: isLoginWithNumber ? "phone" : "email",
+            type: state.isLoginWithNumber ? "font-awesome" : "fontisto",
+            name: state.isLoginWithNumber ? "phone" : "email",
           }}
-          label={<Text>{isLoginWithNumber ? "Mobile Number" : "Email"}</Text>}
-          value={emailOrNumber}
-          keyboardType={isLoginWithNumber ? "numeric" : "email-address"}
-          inputMode={isLoginWithNumber ? "numeric" : "email"}
-          onChangeText={setEmailOrPhoneNumber}
+          label={<Text>{state.isLoginWithNumber ? "Mobile Number" : "Email"}</Text>}
+          value={state.emailOrNumber}
+          name="emailOrNumber"
+          keyboardType={state.isLoginWithNumber ? "numeric" : "email-address"}
+          inputMode={state.isLoginWithNumber ? "numeric" : "email"}
+          onChange={changeInput}
+          renderErrorMessage={state.error.emailOrNumber.error}
         />
       </Spacer>
+      {
+        state.isSignUp &&
+        <Spacer>
+          <Input
+            placeholder={'XYZ...'}
+            label={<Text>First Name</Text>}
+            value={state.firstName}
+            name="firstName"
+            onChange={changeInput}
+            renderErrorMessage={state.error.firstName.error}
+          />
+        </Spacer>
+      }
+      {
+        buttonText === 'Sign Up' &&
+        <Spacer>
+          <Input
+            placeholder={"PQR..."}
+            label={<Text>Last Name</Text>}
+            value={state.lastName}
+            name="lastName"
+            renderErrorMessage={state.error.lastName.error}
+            onChange={changeInput}
+          />
+        </Spacer>
+
+      }
+
 
       <Spacer>
         <Input
@@ -71,28 +109,44 @@ const AuthForm = ({
           secureTextEntry
           leftIcon={{ type: "font-awesome", name: "lock" }}
           label={<Text>Password</Text>}
-          renderErrorMessage={false}
-          value={password}
-          onChangeText={setPassword}
+          renderErrorMessage={state.error.password.error}
+          value={state.password}
+          name="password"
+          onChange={changeInput}
         />
       </Spacer>
+      {
+        buttonText === 'Sign Up' &&
+        <Spacer>
+          <Input
+            placeholder="Password"
+            secureTextEntry
+            leftIcon={{ type: "font-awesome", name: "lock" }}
+            label={<Text>Confirm Password</Text>}
+            renderErrorMessage={state.error.confirmPassword.error}
+            value={state.confirmPassword}
+            name="confirmPassword"
+            onChange={changeInput}
+          />
+        </Spacer>
+      }
       <TouchableOpacity style={style.alreadySignInButton} onPress={navigateTo}>
         <Text style={{ color: theme.colors.secondary }}>
           {alreadyHaveAccountText}
         </Text>
       </TouchableOpacity>
       <Spacer>
-        <Button title={buttonText} />
+        <Button title={buttonText} onPress={() => onClick(state.emailOrNumber, state.password, state.firstName, state.lastName)} />
       </Spacer>
 
       <TouchableOpacity
         style={{ ...style.alreadySignInButton, ...style.emailOrMobileLogin }}
         onPress={() =>
-          setIsLoginWithNumber((isLoginWithNumber) => !isLoginWithNumber)
+          dispatch({ type: CHANGE_INPUT, password: { name: 'isLoginWithNumber', value: !state.isLoginWithNumber } })
         }
       >
         <Text style={{ color: theme.colors.secondary }}>
-          {buttonText} with {isLoginWithNumber ? "Email" : "Mobile Number"}
+          {buttonText} with {state.isLoginWithNumber ? "Email" : "Mobile Number"}
         </Text>
       </TouchableOpacity>
     </>
