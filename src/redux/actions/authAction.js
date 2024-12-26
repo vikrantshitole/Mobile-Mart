@@ -1,23 +1,31 @@
-import { SIGNIN, SIGNUP } from "../types/authTypes"
+import { SIGNIN, SIGNOUT, SIGNUP } from "../types/authTypes"
 
-export const signin = (username, password) => {
+export const signin = (username, token, user) => {
     return {
         type: SIGNIN,
         payload: {
-            username,
-            password
-        }
-    }
-}
-
-export const signup = (username, firstName,lastName, token) => {
-    return {
-        type: SIGNUP,
-        payload: {
-            username,
-            firstName,
-            lastName,
+            _id: user._id,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
             token
         }
     }
 }
+
+export const signup = (username, token, user) => {
+    return {
+        type: SIGNUP,
+        payload: {
+            _id: user._id,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            token
+        }
+    }
+}
+
+export const signout = () => ({
+    type: SIGNOUT
+})

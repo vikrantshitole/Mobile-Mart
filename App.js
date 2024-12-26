@@ -19,8 +19,11 @@ import {
 import { createStore } from "redux";
 import reducer from "./src/redux";
 import { Provider } from "react-redux";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AccountPage from "./src/pages/AccountPage";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 const AddressRoutes = () => (
   <Stack.Navigator>
     <Stack.Screen name="address" component={AddressPage} />
@@ -53,17 +56,23 @@ const AuthRoute = () => (
 
 const ItemRoute = () => (
   <Stack.Navigator>
-    <Stack.Screen name="list" component={MartListPage} />
+    <Stack.Screen name="list" component={MartListPage} options={{headerTitle: "Mart Mobile", headerTitleAlign: 'center'}} />
     <Stack.Screen name="detail" component={DetailItemPage} />
   </Stack.Navigator>
 );
 
-const MainFlowRoute = () => (
+const MartAndCartRoute = () => (
   <Stack.Navigator>
-    <Stack.Screen name="mart" component={ItemRoute} />
-    <Stack.Screen name="cart" component={CartRoute} />
+    <Stack.Screen name="mart" component={ItemRoute} options={{headerShown: false}} />
+    <Stack.Screen name="cart" component={CartRoute} options={{headerShown: false}} />
   </Stack.Navigator>
 );
+const MainFlowRoute = ( ) => (
+  <Tab.Navigator>
+    <Tab.Screen name="home" component={MartAndCartRoute} options={{headerShown: false}}/>
+    <Tab.Screen name="setting" component={AccountPage} options={{headerShown: false}}/>
+  </Tab.Navigator>
+)
 
 const AppRoute = () => (
   <Stack.Navigator>
@@ -72,7 +81,7 @@ const AppRoute = () => (
       component={AuthRoute}
       options={{ headerShown: false }}
     />
-    <Stack.Screen name="main" component={MainFlowRoute} />
+    <Stack.Screen name="main" component={MainFlowRoute} options={{headerShown: false}} />
   </Stack.Navigator>
 );
 const themeSettings = createTheme({
@@ -81,7 +90,7 @@ const themeSettings = createTheme({
       default: lightColors.platform.android,
       ios: lightColors.platform.ios,
     }),
-    primary: lightColors.grey2,
+    primary: lightColors.primary,
     background: lightColors.background,
   },
   mode: "light",

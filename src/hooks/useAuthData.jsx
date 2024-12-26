@@ -10,37 +10,14 @@ const initialState = {
     password: "",
     password: "",
     confirmPassword: "",
-    error: {
-        emailOrNumber: {
-            message:"",
-            error: false
-        },
-        firstName: {
-            message:"",
-            error: false
-        },
-        lastName: {
-            message:"",
-            error: false
-        },
-        password: {
-            message:"",
-            error: false
-        },
-        password: {
-            message:"",
-            error: false
-        },
-        confirmPassword: {
-            message:"",
-            error: false
-        },
-    },
+    
     isError: false,
     isLoginWithNumber: false,
     isSignUp: true
 }
 const authDataRedurcer = (state = initialState, action) => {
+    console.log(action);
+    
     switch(action.type) {
         case CHANGE_INPUT: 
             return {

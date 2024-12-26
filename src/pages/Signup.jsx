@@ -21,7 +21,7 @@ const Signup = () => {
     try {
       
       const res = await api.post('/signup', {username,password,firstName,lastName});
-      AsyncStorage.setItem('token', res.data.token)
+      await AsyncStorage.setItem('token', res.data.token)
       dispatch(signup(username,firstName,lastName, res.data.token));
       navigation.navigate('main')
     } catch (error) {
@@ -29,13 +29,18 @@ const Signup = () => {
       
     }
   }
-
-  useEffect(() => {
-    const token = AsyncStorage.getItem('token');
+  const mount = async() => {
+    const token =await AsyncStorage.getItem('token');
+    
+    console.log(token);
+    
     if (token) {
       navigation.navigate('main')
     }
-  })
+  }
+  useEffect(() => {
+    mount()
+  },[])
   return (
     <View
       style={{
