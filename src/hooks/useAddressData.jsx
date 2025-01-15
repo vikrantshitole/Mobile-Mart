@@ -2,18 +2,18 @@ import { useReducer } from "react";
 import { useDispatch } from "react-redux"
 
 export const CHANGE_INPUT = 'CHANGE_INPUT';
+export const CLEAR_INPUT = 'CLEAR_INPUT';
 
 const initialState = {
-    emailOrNumber: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    password: "",
-    confirmPassword: "",
+    first_name: "",
+    last_name: "",
+    address_line_1: "",
+    address_line_2: "",
+    state: "",
+    contact_number: "",
+    pincode: "",
+    city: "",
     
-    isError: false,
-    isLoginWithNumber: false,
-    isSignUp: true
 }
 const authDataRedurcer = (state = initialState, action) => {    
     switch(action.type) {
@@ -22,13 +22,15 @@ const authDataRedurcer = (state = initialState, action) => {
                 ...state,
                 [action.payload.name]: action.payload.value
             }
+        case CLEAR_INPUT: 
+            return initialState;
         default:
             return state
     }
 }
-const useAuthData = () => {
-    const [state, dispatch] = useReducer(authDataRedurcer, initialState);
+const useAddressData = (address) => {
+const [state, dispatch] = useReducer(authDataRedurcer,address ||initialState);
     
     return [state, dispatch]
 }
-export default useAuthData
+export default useAddressData

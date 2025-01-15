@@ -1,6 +1,6 @@
 import { SIGNIN, SIGNOUT, SIGNUP } from "../types/authTypes"
 
-export const signin = (username, token, user) => {
+export const signin = (token, user) => {
     return {
         type: SIGNIN,
         payload: {
@@ -13,7 +13,7 @@ export const signin = (username, token, user) => {
     }
 }
 
-export const signup = (username, token, user) => {
+export const signup = (token, user) => {
     return {
         type: SIGNUP,
         payload: {

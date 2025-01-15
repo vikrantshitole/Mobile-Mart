@@ -22,19 +22,24 @@ const Signup = () => {
       
       const res = await api.post('/signup', {username,password,firstName,lastName});
       await AsyncStorage.setItem('token', res.data.token)
-      dispatch(signup(username,firstName,lastName, res.data.token));
+      await AsyncStorage.setItem('user', JSON.stringify(res.data.user))
+      dispatch(signup( res.data.token,res.data.user));
       navigation.navigate('main')
     } catch (error) {
-      console.log(error);
+      console.log(JSON.stringify(error));
       
     }
   }
   const mount = async() => {
     const token =await AsyncStorage.getItem('token');
-    
-    console.log(token);
-    
+    const user = await AsyncStorage.getItem('user')
+
+    const getUserInfo= async() => {
+     const res = await api.get('/me')     
+     dispatch(signup( token,JSON.parse(user)));
+    }
     if (token) {
+      getUserInfo()
       navigation.navigate('main')
     }
   }

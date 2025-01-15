@@ -6,9 +6,7 @@ const initialState =  {
     lastName: "",
     username: ""
 }
-const authReducers = (state= initialState, action)=>{
-    console.log(action,"action");
-    
+const authReducers = (state= initialState, action)=>{    
     switch(action.type) {
         case SIGNIN:
             return {

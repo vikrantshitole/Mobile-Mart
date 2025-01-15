@@ -21,21 +21,27 @@ import reducer from "./src/redux";
 import { Provider } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AccountPage from "./src/pages/AccountPage";
+import { navigationRef } from "./src/utils/navigatorRef";
+import CartIcon from "./src/components/CartIcon/CartIcon";
+import useNotification from "./src/hooks/useNotification";
+import AddressListPage from "./src/pages/AddressListPage";
+// import * as Notification from 'expo-notifications'
+// useNotification()
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const AddressRoutes = () => (
   <Stack.Navigator>
-    <Stack.Screen name="address" component={AddressPage} />
-    <Stack.Screen name="create-address" component={CreateAddressPage} />
-    <Stack.Screen name="update-address" component={UpdateAddressPage} />
+    <Stack.Screen name="address" component={AddressListPage} />
+    <Stack.Screen name="create-address" component={CreateAddressPage} options={{headerTitle: "Create Address", headerTitleAlign: "Center"}}/>
+    <Stack.Screen name="update-address" component={UpdateAddressPage} options={{headerTitle: "Update Address", headerTitleAlign: 'center'}}/>
   </Stack.Navigator>
 );
 
 const CartRoute = () => (
   <Stack.Navigator>
     <Stack.Screen name="cart" component={Cart} />
-    <Stack.Screen name="address" component={AddressRoutes} />
+    <Stack.Screen name="address-page" component={AddressRoutes}  options={{headerShown: false}}/>
   </Stack.Navigator>
 );
 
@@ -56,15 +62,15 @@ const AuthRoute = () => (
 
 const ItemRoute = () => (
   <Stack.Navigator>
-    <Stack.Screen name="list" component={MartListPage} options={{headerTitle: "Mart Mobile", headerTitleAlign: 'center'}} />
-    <Stack.Screen name="detail" component={DetailItemPage} />
+    <Stack.Screen name="list" component={MartListPage} options={{headerTitle: "Mart Mobile", headerTitleAlign: 'center', headerRight:() => <CartIcon /> }} />
+    <Stack.Screen name="detail" component={DetailItemPage} options={{ headerTitleAlign: 'center', headerRight:() => <CartIcon />}}/>
   </Stack.Navigator>
 );
 
 const MartAndCartRoute = () => (
   <Stack.Navigator>
     <Stack.Screen name="mart" component={ItemRoute} options={{headerShown: false}} />
-    <Stack.Screen name="cart" component={CartRoute} options={{headerShown: false}} />
+    <Stack.Screen name="cart-page" component={CartRoute} options={{headerShown: false}} />
   </Stack.Navigator>
 );
 const MainFlowRoute = ( ) => (
@@ -99,8 +105,8 @@ const themeSettings = createTheme({
       default: darkColors.platform.android,
       ios: darkColors.platform.ios,
     }),
-    primary: darkColors.b,
-    background: darkColors.primary,
+    primary: darkColors.primary,
+    background: darkColors.background,
   },
 });
 const WEB_FONT_STACK =
@@ -108,12 +114,14 @@ const WEB_FONT_STACK =
 
 const Navigation = () => {
   const { theme } = useTheme();
+console.log(theme.mode, lightColors.background,darkColors.background);
 
   if (!theme) {
     return null;
   }
   return (
     <NavigationContainer
+      ref={navigationRef}
       theme={{
         colors: {
           primary: theme.colors.primary,

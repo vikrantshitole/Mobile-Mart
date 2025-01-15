@@ -19,13 +19,15 @@ const Signin = () => {
 
   const login = async(username,password) => {
     try {
+      console.log("login");
       
-      const response = await api.post('/signin',{username,password});
-      
+      const response = await api.post('/signin',{username,password});      
       await AsyncStorage.setItem('token', response.data.token)
-      dispatch(signin(username,response.data.token,response.data.user))      
+      dispatch(signin(response.data.token,response.data.user))      
       navigation.navigate('main')
     } catch (error) {
+            console.log(error.message);
+            console.log(JSON.stringify(error));
             
     }
 

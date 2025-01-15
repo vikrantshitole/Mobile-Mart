@@ -69,7 +69,7 @@ const AuthForm = ({
   }
 
   const validation = () => {
-    const {emailOrNumber,password,confirmPassword,firstName,lastName,isLoginWithNumber} = state;
+    const {emailOrNumber,password,confirmPassword,firstName,lastName,isLoginWithNumber,isSignUp} = state;
     const err = JSON.parse(JSON.stringify(error))
     let valid = true;
 
@@ -105,29 +105,29 @@ const AuthForm = ({
       err.password.message = 'Please enter password';
       err.password.error = true;
       valid = true;
-    }else  if (!passwordRegex.test(password)){
+    }else  if (isSignUp && !passwordRegex.test(password)){
       err.password.message = 'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.';
       err.password.error = true;
       valid = true;
     }
 
-    if (!confirmPassword) {
+    if (isSignUp && !confirmPassword) {
       err.confirmPassword.message = 'Please enter password';
       err.confirmPassword.error = true;
       valid = true;
-    }else if (confirmPassword !== password){
+    }else if (isSignUp && confirmPassword !== password){
       err.confirmPassword.message = 'Confirm password should be same as that of password.';
       err.confirmPassword.error = true;
       valid = true;
     }
 
-    if (!firstName) {
+    if (isSignUp && !firstName) {
       err.firstName.message = "Please enter first name.";
       err.firstName.error = true;
       valid = false;
     }
 
-    if (!lastName) {
+    if (isSignUp && !lastName) {
       err.lastName.message = "Please enter last name.";
       err.lastName.error = true;
       valid = false
@@ -244,7 +244,7 @@ const AuthForm = ({
       <TouchableOpacity
         style={{ ...style.alreadySignInButton, ...style.emailOrMobileLogin }}
         onPress={() =>
-          dispatch({ type: CHANGE_INPUT, password: { name: 'isLoginWithNumber', value: !state.isLoginWithNumber } })
+          dispatch({ type: CHANGE_INPUT, payload: { name: 'isLoginWithNumber', value: !state.isLoginWithNumber } })
         }
       >
         <Text style={{ color: theme.colors.secondary }}>
