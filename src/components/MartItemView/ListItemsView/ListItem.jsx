@@ -113,6 +113,8 @@ const ListItem = memo(({ item, setFavorite, ...props }) => {
         event.stopPropagation()
 
         dispatch(addToCart(item))
+        navigation.navigate('cart-page')
+
       }
       
     return (

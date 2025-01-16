@@ -46,7 +46,7 @@ const AddressListPage = () => {
       navigation.navigate('mart')
       navigation.reset({index: 0,})
       sendPushNotification('Order Placed!', 'Your order has been placed successfully!');
-    dispatch(clearCart())
+      dispatch(clearCart())
       
     } catch (error) {
       console.log(error);

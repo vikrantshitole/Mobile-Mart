@@ -168,8 +168,12 @@ export default DetailItemPage = ({route}) => {
   }, [navigation, product.title]);
   const onSubmitCart = () => {
     dispatch(addToCart(product))
+    navigation.navigate('cart')
+    
   }
   var mainImage = selectedImage ? selectedImage : product.images[0]
+  console.log(mainImage);
+  
   return (
     <View style={styles.container}>
       <ScrollView style={styles.content}>

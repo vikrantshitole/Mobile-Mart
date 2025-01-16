@@ -1,10 +1,11 @@
 import { ADD_TO_CART, CHANGE_PRODUCT_QUANTITY, CLEAR_CART, GET_PRODUCTS, REMOVE_CART_TIME, SELECT_ALL_PRODUCTS, SELECT_CART_PRODUCT } from "../types/productTypes"
 
-export const getProduct = (products = []) => {
+export const getProduct = (products = [],cart=[]) => {
     return {
         type: GET_PRODUCTS,
         payload: {
-            products
+            products,
+            cart
         }
     }
 }

@@ -174,6 +174,7 @@ const AuthForm = ({
           inputMode={state.isLoginWithNumber ? "numeric" : "email"}
           onChangeText={(value) => changeInput("emailOrNumber", value)}
           renderErrorMessage={error.emailOrNumber.error}
+          errorMessage={error.emailOrNumber.message}
         />
       </Spacer>
       {
@@ -186,6 +187,7 @@ const AuthForm = ({
             name="firstName"
             onChangeText={(value) => changeInput("firstName", value)}
             renderErrorMessage={error.firstName.error}
+            errorMessage={error.firstName.message}
           />
         </Spacer>
       }
@@ -199,7 +201,8 @@ const AuthForm = ({
             name="lastName"
             renderErrorMessage={error.lastName.error}
             onChangeText={(value) => changeInput("lastName", value)}
-          />
+            errorMessage={error.lastName.message}
+            />
         </Spacer>
 
       }
@@ -213,6 +216,7 @@ const AuthForm = ({
           label={<Text>Password</Text>}
           renderErrorMessage={error.password.error}
           value={state.password}
+          errorMessage={error.password.message}
           name="password"
           onChangeText={(value) => changeInput("password", value)}
         />
@@ -227,6 +231,7 @@ const AuthForm = ({
             label={<Text>Confirm Password</Text>}
             renderErrorMessage={error.confirmPassword.error}
             value={state.confirmPassword}
+            errorMessage={error.confirmPassword.message}
             name="confirmPassword"
             onChangeText={(value) => changeInput("confirmPassword", value)}
           />

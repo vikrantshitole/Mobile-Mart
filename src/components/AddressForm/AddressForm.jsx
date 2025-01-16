@@ -5,7 +5,7 @@ import { Button, Input, Text, useTheme } from '@rneui/themed'
 import { useNavigation } from '@react-navigation/native'
 import useAddressData, { CHANGE_INPUT, CLEAR_INPUT } from '../../hooks/useAddressData'
 const ERROR  = {
-  address_line_1e: {
+  address_line_1: {
       message:"",
       error: false
   },
@@ -131,7 +131,8 @@ const AddressForm = (
           label={<Text>First Name</Text>}
           value={state.first_name}
           onChangeText={(value) => changeInput("first_name", value)}
-          renderErrorMessage={error.emailOrNumber.error}
+          renderErrorMessage={error.first_name.error}
+          errorMessage={error.first_name.message}
         />
       </Spacer>
       
@@ -142,7 +143,8 @@ const AddressForm = (
           label={<Text>Last Name</Text>}
           value={state.last_name}
           onChangeText={(value) => changeInput("last_name", value)}
-          renderErrorMessage={error.emailOrNumber.error}
+          renderErrorMessage={error.last_name.error}
+          errorMessage={error.last_name.message}
         />
       </Spacer>
       
@@ -153,18 +155,19 @@ const AddressForm = (
           label={<Text>Address Line 1</Text>}
           value={state.address_line_1}
           onChangeText={(value) => changeInput("address_line_1", value)}
-          renderErrorMessage={error.emailOrNumber.error}
+          renderErrorMessage={error.address_line_1.error}
+          errorMessage={error.address_line_1.message}
         />
       </Spacer>
      
       <Spacer>
         <Input
           placeholder={"Golande Colony..."}
-        
           label={<Text>Address Line 2</Text>}
           value={state.address_line_2}
           onChangeText={(value) => changeInput("address_line_2", value)}
-          renderErrorMessage={error.emailOrNumber.error}
+          renderErrorMessage={error.address_line_2.error}
+          errorMessage={error.address_line_2.message}
         />
       </Spacer>
       
@@ -175,7 +178,8 @@ const AddressForm = (
           label={<Text>City</Text>}
           value={state.city}
           onChangeText={(value) => changeInput("city", value)}
-          renderErrorMessage={error.emailOrNumber.error}
+          renderErrorMessage={error.city.error}
+          errorMessage={error.city.message}
         />
       </Spacer>
       
@@ -187,7 +191,8 @@ const AddressForm = (
           keyboardType='numeric'
           inputMode='numeric'
           onChangeText={(value) => changeInput("pincode", value)}
-          renderErrorMessage={error.emailOrNumber.error}
+          renderErrorMessage={error.pincode.error}
+          errorMessage={error.pincode.message}
         />
       </Spacer>
       
@@ -198,7 +203,8 @@ const AddressForm = (
           label={<Text>State</Text>}
           value={state.state}
           onChangeText={(value) => changeInput("state", value)}
-          renderErrorMessage={error.emailOrNumber.error}
+          renderErrorMessage={error.state.error}
+          errorMessage={error.state.message}
         />
       </Spacer>
       
@@ -211,7 +217,8 @@ const AddressForm = (
           // inputMode='numeric'
           keyboardType='number-pad'
           onChangeText={(value) => changeInput("contact_number", value)}
-          renderErrorMessage={error.emailOrNumber.error}
+          renderErrorMessage={error.contact_number.error}
+          errorMessage={error.contact_number.message}
         />
       </Spacer>
       <Spacer>

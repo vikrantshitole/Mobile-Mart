@@ -6,6 +6,7 @@ import GridItemsView from '../components/MartItemView/GridItemsView/GridItemsVie
 import api from '../api/axios'
 import { useDispatch } from 'react-redux'
 import { getProduct } from '../redux/actions/productAction'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const useStyles = makeStyles((theme,props = {}) => {  
   return{
@@ -34,7 +35,9 @@ const MartListPage = () => {
     const getProducts = async() => {
         try {
           const response = await api.get('/products');
-          dispatch(getProduct(response.data))        
+          let cart = await AsyncStorage.getItem('cart')
+          cart = cart && cart.length ? JSON.stringify(cart):[]
+          dispatch(getProduct(response.data, cart))        
         } catch (error) {        
           console.log(JSON.stringify(error));
           

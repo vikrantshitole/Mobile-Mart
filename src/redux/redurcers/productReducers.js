@@ -5,7 +5,8 @@ const productReducers = (state = {products: [], cart: []}, action)=>{
         case GET_PRODUCTS:
             return {
                 ...state, 
-                products: action.payload.products
+                products: action.payload.products,
+                cart: action.payload.cart
             };
         case ADD_TO_CART: {
             const {product} = action.payload;
@@ -55,7 +56,10 @@ const productReducers = (state = {products: [], cart: []}, action)=>{
             newItems.map((item, index) => {
                 newItems[index]['checked'] = action.payload.value == true ? 0 : 1; // set the new value 
             });
-            setCartItems(newItems); // set new state
+            return{
+                ...state,
+                cart: newItems
+            }
         }
         case REMOVE_CART_TIME: {
             const cart = state.cart.filter(item=>item._id!==action.payload.value);

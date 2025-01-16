@@ -9,6 +9,7 @@ import { decreaseQuantityOfProduct, increaseQuantityOfProduct, removeCartItem, s
 // import * as Notification from 'expo-notifications'
 import useNotification from '../hooks/useNotification';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
  const Cart = () => {
 	const [selectAll, setSelectAll] = useState(false);
@@ -63,8 +64,12 @@ import { useNavigation } from '@react-navigation/native';
 	},[cart])
 		
 		useEffect(()=>{
+			const setCartItem = async() => {
+				await AsyncStorage.setItem('cart',JSON.stringify(cart))
+			}
 			if (cart && cart.length) {
 				setCartItemsIsLoading(false)
+				setCartItem()
 			}
 		},[cart])
 
