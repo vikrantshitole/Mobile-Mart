@@ -2,16 +2,8 @@ import React, { useEffect, useState } from 'react'
 import * as Notification from 'expo-notifications'
 import { Alert, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-Notification.setNotificationHandler({
-    handleNotification: async() => {
-      return{
-        shouldShowAlert:true,
-        shouldSetBadge: false,
-        shouldPlaySound: true
-      }
-    }
-})
+import axios from 'axios';
+[]
 
 const useNotification = () => {
     const [token,setToken] = useState('')
@@ -46,7 +38,7 @@ const useNotification = () => {
         configurePushNotification()
     },[])
 
-    const sendPushNotification = (title='',body = '') => {
+    const sendPushNotification =async (title='',body = '') => {
         const config = {
             headers: {
                 'content-type': 'application/json',
@@ -57,8 +49,20 @@ const useNotification = () => {
             title,
             body
         }
+        await axios.post('https://exp.host/--/api/v2/push/send',reqData,config)
     }
-    return {sendPushNotification,Notification}
+    const scheduleNotification = (title,body) => {
+        Notification.scheduleNotificationAsync({
+            content:{
+                title,
+                body
+            },
+            trigger:{
+                seconds: 5
+            }
+        })
+    }
+    return {sendPushNotification,Notification,scheduleNotification}
 }
 
 export default useNotification

@@ -1,6 +1,6 @@
-import { Button, FAB, Icon, Image, makeStyles, Text, useTheme } from '@rneui/themed'
+import { Button, FAB, Icon, makeStyles, Text, useTheme } from '@rneui/themed'
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import { Rating } from 'react-native-stock-star-rating'
 import api from '../../../api/axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,8 +30,11 @@ const useStyles = makeStyles((theme, props) => ({
         justifyContent: "space-between"
     },
     image: {
-        height: props.type === 'list' ? 250 : "auto",
+        // height: props.type === 'list' ? 250 : "auto",
+        height: 300,
         minHeight:180,
+        width: 200,
+        resizeMode:"cover",
         marginBottom: 10,
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
@@ -102,7 +105,7 @@ const ListItem = memo(({ item, setFavorite, ...props }) => {
             await  api.post('/favorite',{user_id:user._id,product_id: item._id,is_favorite: item.is_favorite? !item.is_favorite:true})
             setFavorite(item._id)
         } catch (error) {
-            console.log(error);
+            console.log(error,"favorite");
             
         }
     }
@@ -113,14 +116,12 @@ const ListItem = memo(({ item, setFavorite, ...props }) => {
         event.stopPropagation()
 
         dispatch(addToCart(item))
-        navigation.navigate('cart-page')
-
       }
       
     return (
         <TouchableOpacity style={styles.card} onPress={goToDescription}>
             <View>
-                <Image source={{ uri: item.image }} alt={item.title} style={styles.image} />
+                <Image source={{ uri: item.image, headers: { 'Accept': 'image/*'} }} alt={item.title} style={styles.image} />
                 <View style={styles.cardBody}>
                     <Text style={styles.price}>{'\u0024'} {item.price}</Text>
                     <Text style={styles.title}>{item.title}</Text>

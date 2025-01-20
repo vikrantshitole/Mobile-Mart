@@ -15,7 +15,7 @@ const CreateAddressPage = () => {
         const address = await api.post('/address/create',reqData);
         navigation.navigate('address')
       } catch (error) {
-        console.log(error);
+        console.log(error,'createAddress');
         
       }
       

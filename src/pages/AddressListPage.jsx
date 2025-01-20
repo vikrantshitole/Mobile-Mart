@@ -15,14 +15,14 @@ const AddressListPage = () => {
   const [address, setAddress] = useState();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {sendPushNotification} = useNotification()
+  const {scheduleNotification} = useNotification()
   
   const getAddress = async () => {
     try {
       const response = await api.get('/address');
       setAddress(response.data.list)
     } catch (error) {
-      console.log(error);
+      console.log(error,'address list');
 
     }
   }
@@ -32,7 +32,7 @@ const AddressListPage = () => {
       event.stopPropagation();
       navigation.navigate('update-address', { item })
     } catch (error) {
-      console.log(error);
+      console.log(error,"Address");
 
     }
   }
@@ -44,18 +44,19 @@ const AddressListPage = () => {
     try {
       
       navigation.navigate('mart')
-      navigation.reset({index: 0,})
-      sendPushNotification('Order Placed!', 'Your order has been placed successfully!');
+      scheduleNotification('Order Placed!', 'Your order has been placed successfully!');
       dispatch(clearCart())
       
     } catch (error) {
-      console.log(error);
+      console.log(error,"address list line 51");
       
     }
     // navigation.navigate('hpme')/
   }
   const renderAppointmentCard = ({ item }) => (
-    <View style={[styles.card, { backgroundColor: theme.colors.background },{flexDirection: 'row', backgroundColor: '#fff', marginBottom: 2}]} onPress={() => selectHandler(item._id)}>
+    <TouchableOpacity style={[styles.card, { backgroundColor: theme.colors.background },{flexDirection: 'row', backgroundColor: '#fff', marginBottom: 2}]} onPress={()=> selectHandler(item._id)}>
+    {/* <V/iew  onPress={() => selectHandler(item._id)}> */}
+      
       <View style={[styles.centerElement, { width: 60 }]}>
         <TouchableOpacity style={[styles.centerElement, { width: 32, height: 32 }]} onPress={() => selectHandler(item._id)}>
           <Ionicons type name={item._id == selectedAddressId? "checkmark-circle" : "checkmark-circle-outline"} size={25} color={item._id == selectedAddressId ? "#0faf9a" : "#aaaaaa"} />
@@ -81,7 +82,8 @@ const AddressListPage = () => {
           </View>
         </View>
       </View>
-    </View>
+    {/* </View> */}
+    </TouchableOpacity>
   );
 
   useEffect(() => {

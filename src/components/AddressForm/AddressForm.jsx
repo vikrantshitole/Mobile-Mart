@@ -119,8 +119,11 @@ const AddressForm = (
   }
   
   const createOrUpdateAddress = () =>{
-    onClick(state);
-    dispatch({type: CLEAR_INPUT})
+    if (validation()) {
+      
+      onClick(state);
+      dispatch({type: CLEAR_INPUT})
+    }
   }
   return (
     <View>

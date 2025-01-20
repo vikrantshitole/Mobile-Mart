@@ -35,11 +35,11 @@ const MartListPage = () => {
     const getProducts = async() => {
         try {
           const response = await api.get('/products');
-          let cart = await AsyncStorage.getItem('cart')
-          cart = cart && cart.length ? JSON.stringify(cart):[]
-          dispatch(getProduct(response.data, cart))        
+          // let cart = await AsyncStorage.getItem('cart')
+          // cart = cart && cart.length ? JSON.parse(cart):[]
+          dispatch(getProduct(response.data, []))        
         } catch (error) {        
-          console.log(JSON.stringify(error));
+          console.log(JSON.stringify(error),'mart list');
           
         }
     }

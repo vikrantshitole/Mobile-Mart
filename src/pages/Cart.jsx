@@ -64,12 +64,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 	},[cart])
 		
 		useEffect(()=>{
-			const setCartItem = async() => {
-				await AsyncStorage.setItem('cart',JSON.stringify(cart))
-			}
+			// const setCartItem = async() => {
+			// 	await AsyncStorage.setItem('cart',JSON.stringify(cart))
+			// }
 			if (cart && cart.length) {
 				setCartItemsIsLoading(false)
-				setCartItem()
+				// setCartItem()
 			}
 		},[cart])
 

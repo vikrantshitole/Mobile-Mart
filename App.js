@@ -25,9 +25,22 @@ import { navigationRef } from "./src/utils/navigatorRef";
 import CartIcon from "./src/components/CartIcon/CartIcon";
 import useNotification from "./src/hooks/useNotification";
 import AddressListPage from "./src/pages/AddressListPage";
-// import * as Notification from 'expo-notifications'
+import * as Notification from 'expo-notifications'
 // useNotification()
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
+
+
+Notification.setNotificationHandler({
+    handleNotification: async() => {
+      return{
+        shouldShowAlert:true,
+        shouldSetBadge: false,
+        shouldPlaySound: true
+      }
+    }
+})
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const AddressRoutes = () => (
@@ -75,8 +88,8 @@ const MartAndCartRoute = () => (
 );
 const MainFlowRoute = ( ) => (
   <Tab.Navigator>
-    <Tab.Screen name="home" component={MartAndCartRoute} options={{headerShown: false}}/>
-    <Tab.Screen name="setting" component={AccountPage} options={{headerShown: false}}/>
+    <Tab.Screen name="home"  component={MartAndCartRoute} options={{headerShown: false, tabBarIcon: () => <FontAwesome5 name="home" size={24} color="black" />}}/>
+    <Tab.Screen name="setting" component={AccountPage} options={{headerShown: false, tabBarIcon: () => <Ionicons name="settings" size={24} color="black" />}}/>
   </Tab.Navigator>
 )
 
