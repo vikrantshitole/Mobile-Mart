@@ -34,7 +34,7 @@ const MartListPage = () => {
 
     const getProducts = async() => {
         try {
-          const response = await api.get('/products');
+          const response = await api.get('/products');          
           // let cart = await AsyncStorage.getItem('cart')
           // cart = cart && cart.length ? JSON.parse(cart):[]
           dispatch(getProduct(response.data, []))        

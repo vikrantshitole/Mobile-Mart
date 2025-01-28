@@ -32,11 +32,15 @@ const Signup = () => {
   }
   const mount = async() => {
     const token =await AsyncStorage.getItem('token');
-    const user = await AsyncStorage.getItem('user')
-
+    let user = await AsyncStorage.getItem('user')
+    user = user ? JSON.parse(user):null
     const getUserInfo= async() => {
-     const res = await api.get('/me')     
-     dispatch(signup( token,JSON.parse(user)));
+      if (!user) {
+       let res = await api.get('/me')     
+      await AsyncStorage.setItem('user', JSON.stringify(res.data.user))
+      user = res.data.user
+     }
+     dispatch(signup( token,user));
     }
     if (token) {
       getUserInfo()

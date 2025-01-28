@@ -1,4 +1,4 @@
-import { ADD_TO_CART, CHANGE_PRODUCT_QUANTITY, CLEAR_CART, GET_PRODUCTS, REMOVE_CART_TIME, SELECT_ALL_PRODUCTS, SELECT_CART_PRODUCT } from "../types/productTypes"
+import { ADD_TO_CART, CHANGE_PRODUCT_QUANTITY, CLEAR_CART, GET_PRODUCTS, PRODUCT_FAVORITE, REMOVE_CART_TIME, SELECT_ALL_PRODUCTS, SELECT_CART_PRODUCT } from "../types/productTypes"
 
 export const getProduct = (products = [],cart=[]) => {
     return {
@@ -72,5 +72,14 @@ export const removeCartItem = (value) => {
 export const clearCart = () => {
     return {
         type: CLEAR_CART
+    }
+}
+
+export const setFavorite = (id) => {
+    return {
+        type: PRODUCT_FAVORITE,
+        payload: {
+            id
+        }
     }
 }

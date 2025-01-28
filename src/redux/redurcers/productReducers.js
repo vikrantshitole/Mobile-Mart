@@ -1,4 +1,4 @@
-import { ADD_TO_CART, CHANGE_PRODUCT_QUANTITY, CLEAR_CART, GET_PRODUCTS, REMOVE_CART_TIME, SELECT_ALL_PRODUCTS, SELECT_CART_PRODUCT } from "../types/productTypes";
+import { ADD_TO_CART, CHANGE_PRODUCT_QUANTITY, CLEAR_CART, GET_PRODUCTS, PRODUCT_FAVORITE, REMOVE_CART_TIME, SELECT_ALL_PRODUCTS, SELECT_CART_PRODUCT } from "../types/productTypes";
 
 const productReducers = (state = {products: [], cart: []}, action)=>{    
     switch(action.type) {
@@ -73,6 +73,18 @@ const productReducers = (state = {products: [], cart: []}, action)=>{
                 ...state,
                 cart: []
             }
+
+        case PRODUCT_FAVORITE: {
+            const {id} = action.payload;
+            const products = [...state.products.map(c=> ({...c}))];
+            const index = products.findIndex(p=>p._id=== id);
+            products[index].is_favorite = !products[index].is_favorite;
+            return {
+                ...state,
+                products
+            }
+         
+        }
         default: 
             return state;
     }

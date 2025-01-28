@@ -6,7 +6,7 @@ import api from '../../../api/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { memo } from 'react';
-import { addToCart } from '../../../redux/actions/productAction';
+import { addToCart, setFavorite } from '../../../redux/actions/productAction';
 
 const useStyles = makeStyles((theme, props) => ({
 
@@ -30,10 +30,10 @@ const useStyles = makeStyles((theme, props) => ({
         justifyContent: "space-between"
     },
     image: {
-        // height: props.type === 'list' ? 250 : "auto",
-        height: 300,
+        height: props.type === 'list' ? 250 : "auto",
+        // height: 300,
         minHeight:180,
-        width: 200,
+        // width: 200,
         resizeMode:"cover",
         marginBottom: 10,
         borderTopLeftRadius: 5,
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme, props) => ({
 
 }));
 
-const ListItem = memo(({ item, setFavorite, ...props }) => {
+const ListItem = memo(({ item, ...props }) => {
     const { theme } = useTheme();
     const styles = useStyles(props, theme)
     const navigation = useNavigation()
@@ -103,7 +103,7 @@ const ListItem = memo(({ item, setFavorite, ...props }) => {
         event.stopPropagation()
         try {
             await  api.post('/favorite',{user_id:user._id,product_id: item._id,is_favorite: item.is_favorite? !item.is_favorite:true})
-            setFavorite(item._id)
+            dispatch(setFavorite(item._id))
         } catch (error) {
             console.log(error,"favorite");
             

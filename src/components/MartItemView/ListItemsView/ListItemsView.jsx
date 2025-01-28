@@ -17,15 +17,7 @@ const ListItemsView = ({searchText}) => {
   const styles = useStyles(theme);
   const {products,cart} = useSelector((state)=> state.product)
   const prod = useSelector((state)=> state.product)
-  
-  const setFavorite = (productId) => {
-    const index = products.findIndex(p=>p._id === productId)
-    const copyProducts = [...products];
-    copyProducts[index].is_favorite = copyProducts[index].is_favorite ? !copyProducts[index].is_favorite : true
-    setProducts(copyProducts)
-  }
-  // console.log(products,"productsgrid",prod);
-  
+
   const filteredProducts = useMemo(() => {
       return products.filter(p=>searchText ? p.title.toLowerCase().includes(searchText.toLowerCase()): true);
   },[searchText,products])
@@ -36,7 +28,7 @@ const ListItemsView = ({searchText}) => {
         contentContainerStyle={styles.propertyListContainer}
         data={filteredProducts}
         horizontal
-        renderItem={({item}) => <ListItem item={item} type="list" setFavorite={setFavorite}/>}
+        renderItem={({item}) => <ListItem item={item} type="list" />}
         keyExtractor={(item) => item._id}
       />
     </View>

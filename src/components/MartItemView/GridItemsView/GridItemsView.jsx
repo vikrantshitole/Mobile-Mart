@@ -28,13 +28,6 @@ const ListItemsView = (props) => {
 
   //   }
   // }
-
-  const setFavorite = (productId) => {
-    const index = products.findIndex(p=>p._id === productId)
-    const copyProducts = [...products];
-    copyProducts[index].is_favorite = copyProducts[index].is_favorite ? !copyProducts[index].is_favorite : true
-    setProducts(copyProducts)
-  }
   useEffect(() => {
     // getProducts()
   }, [])  
@@ -50,7 +43,7 @@ const ListItemsView = (props) => {
         <FlatList
           contentContainerStyle={styles.propertyListContainer}
           data={filteredProducts}
-          renderItem={({ item }) => <ListItem item={item} viewType="grid" setFavorite={setFavorite} />}
+          renderItem={({ item }) => <ListItem item={item} viewType="grid"  />}
           keyExtractor={(item) => item._id}
           numColumns={2}
           showsVerticalScrollIndicator={false}

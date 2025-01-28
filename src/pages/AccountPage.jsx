@@ -27,6 +27,7 @@ const AccountPage = () => {
   }
   return (
     <View style={{
+      marginTop: 20,
       paddingLeft: inset.left,
       paddingRight: inset.right,
       paddingTop: inset.top,

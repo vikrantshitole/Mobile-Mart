@@ -133,7 +133,7 @@ const AuthForm = ({
       valid = false
     }
 
-    setError(error)
+    setError(err)
     return valid
   }
   useEffect(() => {
@@ -163,6 +163,7 @@ const AuthForm = ({
       </Spacer>
       <Spacer>
         <Input
+        testID="username"
           placeholder={state.isLoginWithNumber ? "8855824455" : "email@address.com"}
           leftIcon={{
             type: state.isLoginWithNumber ? "font-awesome" : "fontisto",
@@ -238,7 +239,7 @@ const AuthForm = ({
         </Spacer>
       }
       <TouchableOpacity style={style.alreadySignInButton} onPress={navigateTo}>
-        <Text style={{ color: theme.colors.secondary }}>
+        <Text style={style.alreadyHaveAccountText}>
           {alreadyHaveAccountText}
         </Text>
       </TouchableOpacity>
@@ -252,7 +253,7 @@ const AuthForm = ({
           dispatch({ type: CHANGE_INPUT, payload: { name: 'isLoginWithNumber', value: !state.isLoginWithNumber } })
         }
       >
-        <Text style={{ color: theme.colors.secondary }}>
+        <Text style={style.alreadyHaveAccountText}>
           {buttonText} with {state.isLoginWithNumber ? "Email" : "Mobile Number"}
         </Text>
       </TouchableOpacity>
@@ -269,5 +270,8 @@ const useStyles = makeStyles((theme, props) => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  alreadyHaveAccountText: {
+    color: theme.colors.secondary
+  }
 }));
 export default AuthForm;

@@ -102,7 +102,8 @@ const AddressForm = (
         valid = false
         
       }
-      setError(error)
+      
+      setError(err)
       return valid
     }
     
