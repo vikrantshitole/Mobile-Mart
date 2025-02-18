@@ -119,6 +119,7 @@ const ListItem = memo(({ item, ...props }) => {
       }
       
     return (
+
         <TouchableOpacity style={styles.card} onPress={goToDescription}>
             <View>
                 <Image source={{ uri: item.image, headers: { 'Accept': 'image/*'} }} alt={item.title} style={styles.image} />
@@ -138,7 +139,8 @@ const ListItem = memo(({ item, ...props }) => {
             </View>
 
             {/* <Text style={{fontSize:28, color: "black"}}>Hi</Text> */}
-        </TouchableOpacity>)
+        </TouchableOpacity>
+        )
 })
 
 export default ListItem

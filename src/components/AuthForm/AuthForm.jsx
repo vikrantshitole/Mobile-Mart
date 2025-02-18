@@ -9,7 +9,7 @@ import {
 } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import Spacer from "../Spacer/Spacer";
-import { TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import useAuthData, { CHANGE_INPUT } from "../../hooks/useAuthData";
 const ERROR  = {
@@ -141,7 +141,7 @@ const AuthForm = ({
   }, [buttonText])
 
   return (
-    <>
+    <ScrollView>
       <Spacer>
         <Image
           source={require("../../assets/logo.png")}
@@ -158,7 +158,7 @@ const AuthForm = ({
       </Spacer>
       <Spacer>
         <View style={{ alignItems: "center" }}>
-          <Text h3>{title}</Text>
+          <Text h3 testID="title">{title}</Text>
         </View>
       </Spacer>
       <Spacer>
@@ -244,7 +244,7 @@ const AuthForm = ({
         </Text>
       </TouchableOpacity>
       <Spacer>
-        <Button title={buttonText} onPress={() => validation() && onClick(state.emailOrNumber, state.password, state.firstName, state.lastName)} />
+        <Button title={buttonText} testID="SignUpButton" onPress={() => validation() && onClick(state.emailOrNumber, state.password, state.firstName, state.lastName)} />
       </Spacer>
 
       <TouchableOpacity
@@ -257,7 +257,7 @@ const AuthForm = ({
           {buttonText} with {state.isLoginWithNumber ? "Email" : "Mobile Number"}
         </Text>
       </TouchableOpacity>
-    </>
+    </ScrollView>
   );
 };
 const useStyles = makeStyles((theme, props) => ({

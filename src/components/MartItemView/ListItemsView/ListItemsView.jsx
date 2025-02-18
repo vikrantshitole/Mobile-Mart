@@ -28,7 +28,7 @@ const ListItemsView = ({searchText}) => {
         contentContainerStyle={styles.propertyListContainer}
         data={filteredProducts}
         horizontal
-        renderItem={({item}) => <ListItem item={item} type="list" />}
+        renderItem={({item}) => <ListItem item={item} type="list"  />}
         keyExtractor={(item) => item._id}
       />
     </View>

@@ -29,7 +29,10 @@ import * as Notification from 'expo-notifications'
 // useNotification()
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
+import React, { useEffect, useState } from 'react';
+import { View, Text, Alert } from 'react-native';
+import * as Device from 'expo-device';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 
 Notification.setNotificationHandler({
@@ -178,12 +181,29 @@ console.log(theme.mode, lightColors.background,darkColors.background);
 };
 const store = createStore(reducer)
 const App = () => {
+  const [isRooted, setIsRooted] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const rooted = await Device.isRootedAsync();
+      setIsRooted(rooted);
+      if (rooted) {
+        Alert.alert('Warning', 'This device is rooted or jailbroken.');
+      }
+    })();
+  }, []);
   return (
-    <Provider store={store}>
+    <>
+    
+    {
+      isRooted ? <Text> Device is Rooted </Text>:
+    (<Provider store={store}>
       <ThemeProvider theme={themeSettings}>
         <Navigation />
       </ThemeProvider>
-    </Provider>
+    </Provider>)
+    }
+    </>
   );
 };
 

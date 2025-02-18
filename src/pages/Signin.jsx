@@ -13,7 +13,6 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Signin = () => {
-  const inset2 = useSafeAreaInsets();
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -33,17 +32,7 @@ const Signin = () => {
 
   }
   return (
-    <View
-      style={{
-        paddingLeft: inset2.left,
-        paddingRight: inset2.right,
-        paddingTop: inset2.top,
-        paddingBottom: inset2.bottom,
-        flex: 1,
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
+    <SafeAreaProvider>
       <AuthForm
         title="Sign In To Mobile Mart"
         route="signup"
@@ -51,7 +40,7 @@ const Signin = () => {
         alreadyHaveAccountText="Don't have an account? Please Sign Up!"
         onClick={login}
       />
-    </View>
+    </SafeAreaProvider>
   );
 };
 

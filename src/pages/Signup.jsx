@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { View } from "react-native";
 import AuthForm from "../components/AuthForm/AuthForm";
 import {
+  SafeAreaProvider,
   useSafeAreaFrame,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
@@ -13,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Signup = () => {
-  const inset2 = useSafeAreaInsets();
+  // const inset2 = useSafeAreaInsets();
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -27,7 +28,7 @@ const Signup = () => {
       navigation.navigate('main')
     } catch (error) {
       console.log(JSON.stringify(error));
-      
+      throw JSON.stringify(new Error('Signup failed!'))
     }
   }
   const mount = async() => {
@@ -39,7 +40,7 @@ const Signup = () => {
        let res = await api.get('/me')     
       await AsyncStorage.setItem('user', JSON.stringify(res.data.user))
       user = res.data.user
-     }
+     }     
      dispatch(signup( token,user));
     }
     if (token) {
@@ -50,17 +51,31 @@ const Signup = () => {
   useEffect(() => {
     mount()
   },[])
+  const [isBiometricSupported, setIsBiometricSupported] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+      setIsBiometricSupported(compatible);
+    })();
+  }, []);
+
+  const handleBiometricAuth = async () => {
+    const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
+    if (!savedBiometrics) {
+      return Alert.alert('Biometric record not found', 'Please ensure you have set up biometrics on your device.');
+    }
+
+    const result = await LocalAuthentication.authenticateAsync();
+    if (result.success) {
+      Alert.alert('Authenticated', 'You have been successfully authenticated!');
+    } else {
+      Alert.alert('Authentication failed', 'Please try again.');
+    }
+  };
+
   return (
-    <View
-      style={{
-        paddingLeft: inset2.left,
-        paddingRight: inset2.right,
-        paddingTop: inset2.top,
-        paddingBottom: inset2.bottom,
-        flex: 1,
-        justifyContent: "center",
-        width: "100%",
-      }}
+    <SafeAreaProvider 
       >
       <AuthForm
         title="Sign Up To Mobile Mart"
@@ -69,7 +84,7 @@ const Signup = () => {
         alreadyHaveAccountText="Already have an account? Please Sign In!"
         onClick={register}
       />
-    </View>
+    </SafeAreaProvider>
   );
 };
 

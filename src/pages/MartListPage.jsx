@@ -1,6 +1,6 @@
 import { makeStyles, SearchBar, Switch, Text, useTheme } from '@rneui/themed'
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import ListItemsView from '../components/MartItemView/ListItemsView/ListItemsView'
 import GridItemsView from '../components/MartItemView/GridItemsView/GridItemsView'
 import api from '../api/axios'
@@ -49,8 +49,10 @@ const MartListPage = () => {
         
       },[])
   return (
-    <View>
+    <View style={{marginBottom: 20}}>
       <SearchBar lightTheme={theme.mode === "light"} value={searchText} onChangeText={setSearchText}/>
+      <ScrollView>
+
       <View style={styles.toggleView}>
         <Text style={styles.toggleText}>{checked ? "Grid" : "List"}</Text>
         <Switch 
@@ -62,6 +64,7 @@ const MartListPage = () => {
       {
         checked ? <GridItemsView searchText={searchText} /> : <ListItemsView searchText={searchText} />
       }
+      </ScrollView>
     </View>
   )
 }

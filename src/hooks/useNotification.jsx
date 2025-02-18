@@ -3,7 +3,7 @@ import * as Notification from 'expo-notifications'
 import { Alert, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-[]
+
 
 const useNotification = () => {
     const [token,setToken] = useState('')
